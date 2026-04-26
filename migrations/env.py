@@ -7,6 +7,8 @@ from sqlalchemy import engine_from_config, pool
 
 from app.base import Base
 from app.config import get_settings
+from app.fiber_links import models as fiber_links_models  # pylint: disable=unused-import
+from app.terminals import models as terminals_models  # pylint: disable=unused-import
 from app.users import models as users_models  # pylint: disable=unused-import
 
 config = context.config
