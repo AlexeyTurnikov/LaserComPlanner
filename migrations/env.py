@@ -9,7 +9,10 @@ from app.availability import models as availability_models  # pylint: disable=un
 from app.base import Base
 from app.config import get_settings
 from app.fiber_links import models as fiber_links_models  # pylint: disable=unused-import
+from app.routing import models as routing_models  # pylint: disable=unused-import
+from app.sessions import models as sessions_models  # pylint: disable=unused-import
 from app.terminals import models as terminals_models  # pylint: disable=unused-import
+from app.transmission_requests import models as transmission_requests_models  # pylint: disable=unused-import
 from app.users import models as users_models  # pylint: disable=unused-import
 from app.weather import models as weather_models  # pylint: disable=unused-import
 
