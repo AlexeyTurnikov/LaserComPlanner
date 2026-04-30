@@ -115,15 +115,15 @@ def list_sessions(
     db: Session,
     *,
     terminal_id: int | None = None,
-    status: SessionStatus | None = None,
+    session_status: SessionStatus | None = None,
 ) -> list[CommunicationSession]:
     """Return communication sessions filtered by terminal and status."""
 
     query = select(CommunicationSession).order_by(CommunicationSession.id)
     if terminal_id is not None:
         query = query.where(CommunicationSession.terminal_id == terminal_id)
-    if status is not None:
-        query = query.where(CommunicationSession.status == status)
+    if session_status is not None:
+        query = query.where(CommunicationSession.status == session_status)
     return list(db.scalars(query).all())
 
 

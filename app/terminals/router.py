@@ -52,7 +52,7 @@ def list_terminals_endpoint(
 
     return list_terminals(
         db,
-        status=status_filter,
+        terminal_status=status_filter,
         search=search,
         limit=limit,
         offset=offset,

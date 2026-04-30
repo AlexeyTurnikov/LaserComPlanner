@@ -41,7 +41,7 @@ def create_terminal(db: Session, payload: TerminalCreate) -> Terminal:
 def list_terminals(
     db: Session,
     *,
-    status: TerminalStatus | None = None,
+    terminal_status: TerminalStatus | None = None,
     search: str | None = None,
     limit: int = 100,
     offset: int = 0,
@@ -49,8 +49,8 @@ def list_terminals(
     """Return terminals filtered by status and name search."""
 
     query = select(Terminal).order_by(Terminal.id)
-    if status is not None:
-        query = query.where(Terminal.status == status)
+    if terminal_status is not None:
+        query = query.where(Terminal.status == terminal_status)
     if search:
         query = query.where(Terminal.name.ilike(f"%{search}%"))
     query = query.limit(limit).offset(offset)

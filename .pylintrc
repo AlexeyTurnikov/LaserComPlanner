@@ -1,0 +1,14 @@
+[MAIN]
+persistent = no
+
+[FORMAT]
+max-line-length = 100
+
+[MESSAGES CONTROL]
+disable =
+    duplicate-code,
+    invalid-name,
+    not-callable,
+    too-few-public-methods,
+    too-many-arguments,
+    too-many-locals

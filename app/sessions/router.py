@@ -39,7 +39,7 @@ def list_sessions_endpoint(
 ) -> list[CommunicationSession]:
     """List communication sessions."""
 
-    return list_sessions(db, terminal_id=terminal_id, status=session_status)
+    return list_sessions(db, terminal_id=terminal_id, session_status=session_status)
 
 
 @router.get("/{session_id}", response_model=SessionRead)

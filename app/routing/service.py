@@ -123,7 +123,10 @@ def _source_unavailable_reason(
     """Return a compact explanation for why the source terminal was not direct."""
 
     if source_terminal.status != TerminalStatus.online:
-        return f"Source terminal is unavailable because hardware status is {source_terminal.status.value}"
+        return (
+            "Source terminal is unavailable because hardware status is "
+            f"{source_terminal.status.value}"
+        )
     if availability is None:
         return "Source terminal has no latest availability check"
     first_reason = availability.reason[0] if availability.reason else availability.status.value

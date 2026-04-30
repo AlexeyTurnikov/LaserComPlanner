@@ -3,10 +3,13 @@ bcrypt<5
 email-validator
 fastapi
 httpx
+Jinja2
 passlib[bcrypt]
 psycopg[binary]
 pydantic-settings
 python-jose[cryptography]
 pytest
+pytest-cov
+pylint
 SQLAlchemy
 uvicorn[standard]

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - LaserGround Planner</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/dashboard">LaserGround Planner</a>
+      <nav>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/planner">Planner</a>
+        <a href="/login" id="logout-link">Logout</a>
+      </nav>
+    </header>
+
+    <main class="page-grid">
+      <section class="map-section">
+        <div id="dashboard-map" class="map"></div>
+      </section>
+      <aside class="side-panel">
+        <div class="panel-header">
+          <h1>Terminals</h1>
+          <button id="refresh-dashboard" type="button">Refresh</button>
+        </div>
+        <div class="legend">
+          <span><i class="dot available"></i>Available</span>
+          <span><i class="dot limited"></i>Limited</span>
+          <span><i class="dot unavailable"></i>Unavailable</span>
+          <span><i class="dot nodata"></i>No data</span>
+        </div>
+        <div id="terminal-list" class="list"></div>
+      </aside>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/static/js/map.js"></script>
+  </body>
+</html>

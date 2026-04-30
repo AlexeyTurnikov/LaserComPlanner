@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - LaserGround Planner</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <section class="auth-panel">
+        <h1>LaserGround Planner</h1>
+        <form id="login-form" class="form-stack">
+          <label>
+            Email
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </label>
+          <label>
+            Password
+            <input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required>
+          </label>
+          <button type="submit">Sign in</button>
+        </form>
+        <p id="login-message" class="message" aria-live="polite"></p>
+      </section>
+    </main>
+    <script>
+      const form = document.querySelector("#login-form");
+      const message = document.querySelector("#login-message");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        message.textContent = "";
+        const payload = {
+          email: form.email.value,
+          password: form.password.value,
+        };
+
+        const response = await fetch("/api/v1/auth/login", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          message.textContent = "Invalid email or password";
+          return;
+        }
+
+        const data = await response.json();
+        localStorage.setItem("access_token", data.access_token);
+        window.location.href = "/dashboard";
+      });
+    </script>
+  </body>
+</html>

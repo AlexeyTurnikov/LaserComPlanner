@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Terminal - LaserGround Planner</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+  </head>
+  <body data-terminal-id="{{ terminal_id }}">
+    <header class="topbar">
+      <a class="brand" href="/dashboard">LaserGround Planner</a>
+      <nav>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/planner">Planner</a>
+        <a href="/login" id="logout-link">Logout</a>
+      </nav>
+    </header>
+
+    <main class="detail-layout">
+      <section>
+        <h1 id="terminal-title">Terminal</h1>
+        <dl id="terminal-summary" class="details"></dl>
+      </section>
+      <section>
+        <h2>Weather</h2>
+        <dl id="weather-summary" class="details"></dl>
+      </section>
+      <section>
+        <h2>Availability</h2>
+        <dl id="availability-summary" class="details"></dl>
+      </section>
+      <section>
+        <h2>Fiber links</h2>
+        <div id="link-list" class="list"></div>
+      </section>
+      <section>
+        <h2>Checks</h2>
+        <div id="check-history" class="list"></div>
+      </section>
+    </main>
+
+    <script src="/static/js/terminal_detail.js"></script>
+  </body>
+</html>
