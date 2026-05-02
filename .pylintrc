@@ -4,11 +4,19 @@ persistent = no
 [FORMAT]
 max-line-length = 100
 
+[BASIC]
+class-const-naming-style = any
+
 [MESSAGES CONTROL]
 disable =
     duplicate-code,
-    invalid-name,
     not-callable,
-    too-few-public-methods,
-    too-many-arguments,
-    too-many-locals
+    too-few-public-methods
+
+[TYPECHECK]
+generated-members =
+    config,
+    configure,
+    begin_transaction,
+    run_migrations,
+    is_offline_mode

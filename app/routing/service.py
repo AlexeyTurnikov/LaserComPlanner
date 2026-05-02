@@ -49,6 +49,19 @@ class RouteCandidate:
     estimated_transfer_time_sec: float
 
 
+@dataclass(frozen=True)
+class RoutingResultData:
+    """Data needed to persist a routing decision."""
+
+    selected_terminal_id: int
+    route: list[int]
+    route_distance_km: float
+    estimated_latency_ms: float
+    estimated_transfer_time_sec: float
+    final_score: float
+    decision_reason: list[str]
+
+
 def _load_terminals(db: Session) -> list[Terminal]:
     """Return all terminals ordered by ID."""
 
@@ -203,27 +216,20 @@ def _create_transmission_request(
 
 def _create_routing_result(
     db: Session,
-    *,
     request_id: int,
-    selected_terminal_id: int,
-    route: list[int],
-    route_distance_km: float,
-    estimated_latency_ms: float,
-    estimated_transfer_time_sec: float,
-    final_score: float,
-    decision_reason: list[str],
+    data: RoutingResultData,
 ) -> RoutingResult:
     """Persist a routing result."""
 
     result = RoutingResult(
         request_id=request_id,
-        selected_terminal_id=selected_terminal_id,
-        route_terminal_ids=route,
-        route_distance_km=route_distance_km,
-        estimated_latency_ms=estimated_latency_ms,
-        estimated_transfer_time_sec=estimated_transfer_time_sec,
-        final_score=final_score,
-        decision_reason=decision_reason,
+        selected_terminal_id=data.selected_terminal_id,
+        route_terminal_ids=data.route,
+        route_distance_km=data.route_distance_km,
+        estimated_latency_ms=data.estimated_latency_ms,
+        estimated_transfer_time_sec=data.estimated_transfer_time_sec,
+        final_score=data.final_score,
+        decision_reason=data.decision_reason,
     )
     db.add(result)
     db.commit()
@@ -448,16 +454,18 @@ def create_transmission_plan(
         result = _create_routing_result(
             db,
             request_id=request.id,
-            selected_terminal_id=source_terminal.id,
-            route=[source_terminal.id],
-            route_distance_km=0.0,
-            estimated_latency_ms=0.0,
-            estimated_transfer_time_sec=transfer_time,
-            final_score=availability.availability_score,
-            decision_reason=[
-                "Source terminal is available for direct satellite access",
-                "No terrestrial fiber route is required",
-            ],
+            data=RoutingResultData(
+                selected_terminal_id=source_terminal.id,
+                route=[source_terminal.id],
+                route_distance_km=0.0,
+                estimated_latency_ms=0.0,
+                estimated_transfer_time_sec=transfer_time,
+                final_score=availability.availability_score,
+                decision_reason=[
+                    "Source terminal is available for direct satellite access",
+                    "No terrestrial fiber route is required",
+                ],
+            ),
         )
         return _response_from_result(
             result,
@@ -477,21 +485,29 @@ def create_transmission_plan(
     result = _create_routing_result(
         db,
         request_id=request.id,
-        selected_terminal_id=best_candidate.terminal.id,
-        route=best_candidate.path.route,
-        route_distance_km=best_candidate.path.total_distance_km,
-        estimated_latency_ms=best_candidate.path.total_latency_ms,
-        estimated_transfer_time_sec=best_candidate.estimated_transfer_time_sec,
-        final_score=best_candidate.final_score,
-        decision_reason=[
-            _source_unavailable_reason(
-                source_terminal,
-                availability_by_terminal.get(source_terminal.id),
-            ),
-            f"Terminal {best_candidate.terminal.id} is available for satellite transmission",
-            "Selected route has the highest combined availability, route, and capacity score",
-            "All fiber links in the route are active",
-        ],
+        data=RoutingResultData(
+            selected_terminal_id=best_candidate.terminal.id,
+            route=best_candidate.path.route,
+            route_distance_km=best_candidate.path.total_distance_km,
+            estimated_latency_ms=best_candidate.path.total_latency_ms,
+            estimated_transfer_time_sec=best_candidate.estimated_transfer_time_sec,
+            final_score=best_candidate.final_score,
+            decision_reason=[
+                _source_unavailable_reason(
+                    source_terminal,
+                    availability_by_terminal.get(source_terminal.id),
+                ),
+                (
+                    f"Terminal {best_candidate.terminal.id} is available "
+                    "for satellite transmission"
+                ),
+                (
+                    "Selected route has the highest combined availability, "
+                    "route, and capacity score"
+                ),
+                "All fiber links in the route are active",
+            ],
+        ),
     )
     return _response_from_result(
         result,

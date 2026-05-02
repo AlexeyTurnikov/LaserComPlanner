@@ -10,7 +10,7 @@ from app.config import get_settings
 settings = get_settings()
 
 engine = create_engine(settings.database_url, pool_pre_ping=True)
-SessionLocal = sessionmaker(
+SESSION_LOCAL = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine,
@@ -20,7 +20,7 @@ SessionLocal = sessionmaker(
 def get_db() -> Generator[Session, None, None]:
     """Yield a database session and close it after request handling."""
 
-    db = SessionLocal()
+    db = SESSION_LOCAL()
     try:
         yield db
     finally:

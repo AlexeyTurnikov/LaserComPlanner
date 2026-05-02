@@ -16,7 +16,7 @@ if str(ROOT_DIR) not in sys.path:
 
 from app.availability.models import AvailabilityCheck
 from app.availability.service import calculate_availability
-from app.database import SessionLocal
+from app.database import SESSION_LOCAL
 from app.fiber_links.models import FiberLink
 from app.fiber_links.schemas import FiberLinkCreate
 from app.fiber_links.service import create_fiber_link
@@ -348,7 +348,7 @@ def seed_demo_data(db: Session) -> None:
 def main() -> None:
     """Run the demo data seed."""
 
-    db = SessionLocal()
+    db = SESSION_LOCAL()
     try:
         seed_demo_data(db)
     finally:

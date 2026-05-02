@@ -5,16 +5,27 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from app.availability import models as availability_models  # pylint: disable=unused-import
+from app.availability import models as availability_models
 from app.base import Base
 from app.config import get_settings
-from app.fiber_links import models as fiber_links_models  # pylint: disable=unused-import
-from app.routing import models as routing_models  # pylint: disable=unused-import
-from app.sessions import models as sessions_models  # pylint: disable=unused-import
-from app.terminals import models as terminals_models  # pylint: disable=unused-import
-from app.transmission_requests import models as transmission_requests_models  # pylint: disable=unused-import
-from app.users import models as users_models  # pylint: disable=unused-import
-from app.weather import models as weather_models  # pylint: disable=unused-import
+from app.fiber_links import models as fiber_links_models
+from app.routing import models as routing_models
+from app.sessions import models as sessions_models
+from app.terminals import models as terminals_models
+from app.transmission_requests import models as transmission_requests_models
+from app.users import models as users_models
+from app.weather import models as weather_models
+
+MODEL_MODULES = (
+    availability_models,
+    fiber_links_models,
+    routing_models,
+    sessions_models,
+    terminals_models,
+    transmission_requests_models,
+    users_models,
+    weather_models,
+)
 
 config = context.config
 
